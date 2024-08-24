@@ -1,0 +1,69 @@
+.back-btn{
+    background-color: #A99DCF;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
+/* .placeholder{
+    height: 60vh;
+} */
+
+.box2{
+    background-color: #6E8280;
+    padding: 20px;
+    border-radius: 15px;
+    color: white;
+}
+
+.info{
+    padding-left: 24px;
+}
+
+.text-bg{
+    background-color: #ffffff;
+    width: 100%;
+    height: 40px;
+    border-radius: 7px;
+}
+
+.text-bg p{
+    color:#2E2212;
+    padding: 6px;
+    padding-left: 10px;
+}
+
+.number-input{
+    width: 50px;
+    height: 50px;
+    border-radius: 3px;
+    background-color: #ffffff;
+    border: none;
+    color: white;
+    padding-top: 12px;
+}
+
+.number-input p{
+    color:#2E2212;
+    text-align: center;
+}
+
+.align{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.description{
+    height: 160px;
+}
+
+/* Agent Box */
+.box3{
+    background-color: #A99DCF;
+    padding: 20px;
+    border-radius: 15px;
+    color: #2E2212;
+}

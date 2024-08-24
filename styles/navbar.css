@@ -1,0 +1,42 @@
+.navbar{
+    border-bottom: solid 1.5px #2E2212;
+}
+.navbar-nav {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    margin: 0 10px; /* Optional: Adjust spacing between items */
+  }
+  
+  .nav-link {
+    display: flex;
+    align-items: center; /* Center SVG and text vertically */
+    text-decoration: none; /* Remove underline from links */
+    color: #2E2212; /* Adjust text color as needed */
+  }
+  
+  .nav-link svg {
+    margin-right: 8px; /* Space between SVG and text */
+  }
+  
+  .add {
+    background-color: #A99DCF;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #A99DCF;
+}
+
+.add:hover{
+    color: #1c1c1c;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #A99DCF;
+}

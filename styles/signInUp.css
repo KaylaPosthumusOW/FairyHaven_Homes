@@ -1,0 +1,62 @@
+.signIn-img{
+    width: 100%;
+    height: 88.5vh;
+}
+
+.form-control{
+    width: 100%;
+    border: 0.5px solid #6E8280;
+    box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.2);
+}
+
+.signIn-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically (if needed) */
+}
+
+.signIn-form h2 {
+    margin-bottom: 20px; /* Space below the heading */
+}
+
+form {
+    width: 90%; /* Ensure the form takes up full width of the container */
+    max-width: 50%; /* Optional: Set a max-width for better appearance on large screens */
+}
+
+.mb-3 {
+    width: 100%; /* Ensure form elements take full width of the container */
+}
+
+.btn {
+    margin-top: 20px; /* Space above the submit button */
+    background-color: #6E8280;
+    color: white;
+    padding-left: 40px;
+    padding-right: 40px;
+    border: 2px solid #6E8280;
+}
+
+.btn:hover {
+    margin-top: 20px; /* Space above the submit button */
+    color: #1c1c1c;
+    padding-left: 40px;
+    padding-right: 40px;
+    border: 2px solid #6E8280;
+}
+
+.link{
+    color:#1c1c1c; 
+}
+
+.link:hover{
+    color: #A99DCF;
+}
+
+.btn-link{
+    text-decoration: none;
+    color: white;
+}

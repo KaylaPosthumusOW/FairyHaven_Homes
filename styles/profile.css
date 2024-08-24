@@ -1,0 +1,34 @@
+.box-profile{
+    background-color: #A99DCF;
+    padding: 20px;
+    border-radius: 15px;
+    color: #2E2212;
+}
+
+.logOut{
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    border: none;
+    height: 50px;
+}
+
+.logOut p{
+    margin-top: 10px;
+}
+
+.edit{
+    border: 2px solid #2E2212;
+    padding-top: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 10px;
+    height: 40px;
+    margin-left: -12px;
+    color:#2E2212;
+}
+
+.save{
+    background-color: white;
+    color:#2E2212;
+}

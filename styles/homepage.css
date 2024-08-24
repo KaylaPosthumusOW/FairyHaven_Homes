@@ -1,0 +1,76 @@
+.add {
+    background-color: #A99DCF;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #A99DCF;
+}
+
+.add:hover{
+    color: #1c1c1c;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #A99DCF;
+}
+
+.btn-link{
+    text-decoration: none;
+    color: white;
+}
+
+.btn-link:hover{
+    text-decoration: none;
+    color: #1c1c1c;
+}
+
+.header-content {
+    position: relative; /* Create a positioning context for the absolute positioning */
+    text-align: center; /* Center the text horizontally */
+}
+  
+.homepage-img {
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove any inline spacing */
+}
+  
+.header-content h1 {
+    position: absolute; /* Position the heading absolutely within the container */
+    top: 37%; /* Center vertically */
+    left: 30%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust the position to center */
+    color: white; /* Text color */
+    font-size: 3rem; /* Adjust size as needed */
+    font-weight: bold; /* Make text bold */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Optional: Add shadow for better readability */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+.header-content p {
+    width: 35%;
+    position: absolute; /* Position the heading absolutely within the container */
+    top: 45%; /* Center vertically */
+    left: 30%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjust the position to center */
+    color: white; /* Text color */
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+}
+
+.primary {
+    background-color: #6E8280;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #6E8280;
+    position: absolute; /* Position the heading absolutely within the container */
+    top: 52%; /* Center vertically */
+    left: 25%; /* Center horizontally */
+}
+
+.primary:hover{
+    color: #1c1c1c;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 2px solid #6E8280;
+}
