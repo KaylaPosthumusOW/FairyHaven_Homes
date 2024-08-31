@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="../styles/footer.css">
 </head>
 <body>
-  <footer class="mt-5">
+  <footer>
       <div class="footer-container">
           <div class="footer-logo">
-              <img src="path-to-your-logo.png" alt="Company Logo">
+              <img src="../assets/FHH-Logo_white.png" alt="Company Logo">
           </div>
 
           <div class="footer-nav">
@@ -24,15 +24,15 @@
           </div>
 
           <div class="footer-social">
-              <a href="#"><img src="path-to-facebook-icon.png" alt="Facebook"></a>
-              <a href="#"><img src="path-to-twitter-icon.png" alt="Twitter"></a>
-              <a href="#"><img src="path-to-instagram-icon.png" alt="Instagram"></a>
+              <a href="#"><img src="../assets/socials/facebook.svg" alt="Facebook"></a>
+              <a href="#"><img src="../assets/socials/instagram.svg" alt="Instagram"></a>
+              <a href="#"><img src="../assets/socials/twitter.svg" alt="Twitter"></a>
           </div>
 
           <div class="footer-subscription">
               <form>
                   <input type="email" placeholder="Subscribe to our newsletter">
-                  <button type="submit">Subscribe</button>
+                  <button class="subscribe-btn" type="submit">Subscribe</button>
               </form>
           </div>
       </div>

@@ -2,6 +2,11 @@
 session_start(); // Start the session
 require '../config.php'; // Include the config file for database connection
 
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -9,6 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare SQL query to find the user by email
     $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql);
+
+    if ($stmt === false) {
+        die('Prepare failed: ' . htmlspecialchars($conn->error));
+    }
+
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -22,23 +32,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['firstname'] = $user['firstname']; 
             $_SESSION['surname'] = $user['surname']; 
             $_SESSION['email'] = $user['email']; 
+            $_SESSION['usertype'] = $user['usertype']; // Store usertype in session
 
-            // Redirect to the homepage
-            header("Location: ../homepage.php");
+            // Redirect based on usertype
+            if ($user['userType'] === 'admin') {
+                header("Location: ../adminDash.php"); // Redirect to admin dashboard
+            } else {
+                header("Location: ../homepage.php"); // Redirect to homepage for standard users
+            }
             exit();
         } else {
             // Error message for wrong password
-            echo "Invalid email or password";
+            echo "Invalid email or password - password issue";
         }
     } else {
         // Error message for wrong email
-        echo "Invalid email or password";
+        echo "Invalid email or password - email issue";
     }
     
     $stmt->close();
     $conn->close(); 
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

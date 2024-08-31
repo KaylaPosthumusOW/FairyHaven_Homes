@@ -43,6 +43,7 @@
     width: 100%;
     height: 200px;
     border-radius: 10px;
+    object-fit: cover;
 }
 
 .align{
@@ -51,10 +52,18 @@
     gap: 10px;
 }
 
+.align p{
+    color:#2E2212 !important;
+}
+
 .align2{
     display: flex;
     align-content: center; 
     gap: 10px;
+}
+
+.align2 p{
+    color:#2E2212 !important;
 }
 
 
@@ -69,15 +78,23 @@
     display: flex;
 }
 
-.heart-button{
+.wishlist-button{
     width: 70px;
     height: 70px;
     background-image: url(../assets/Icons/heart_icon.svg);
+    border: none;
+    background-color: transparent;
 }
 
-.heart-button:hover{
+.wishlist-button:hover{
     background-image: url(../assets/Icons/heart_icon\ hover.svg);
 }
+
+.wishlist-button.check {
+    background-image: url(../assets/Icons/heart_icon_filled.svg);
+}
+
+
 
 .interior{
     background-color: #ffffff;
@@ -97,11 +114,10 @@
 }
 
 .interior2{
-    width: 70px;
+    width: 90px;
     background-color: #ffffff;
     height: 33px;
     border-radius: 10px;
-    /* padding: 5px; */
     display: flex;
     align-items: center;
     text-align: center;
@@ -112,4 +128,18 @@
     margin-top: 13px;
     margin-left: 5px;
     color: #2E2212;
+}
+
+.clear{
+    width: 100%;
+    height: 40px;
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    border-radius: 5px;
+}
+
+.clear:hover{
+    background-color: white;
+    color:#2E2212;
 }

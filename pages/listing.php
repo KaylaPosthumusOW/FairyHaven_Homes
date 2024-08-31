@@ -3,7 +3,7 @@ session_start(); // Start the session
 require '../config.php';
 
 // Check if the session variable 'email' is set
-if(!isset($_SESSION['email'])){
+if (!isset($_SESSION['email'])) {
     header("Location: pages/login.php"); // Redirect to login page if the user is not logged in
     exit(); // Terminate the script to ensure redirection
 }
@@ -11,12 +11,82 @@ if(!isset($_SESSION['email'])){
 // Retrieve session variables
 $firstname = isset($_SESSION['firstname']) ? $_SESSION['firstname'] : '';
 $surname = isset($_SESSION['surname']) ? $_SESSION['surname'] : '';
+$userId = isset($_SESSION['UserId']) ? $_SESSION['UserId'] : ''; // Assuming userId is stored in the session
 
-// Query to fetch listings
-$sql = "SELECT * FROM listing";
-$result = $conn->query($sql);
+// Initialize filters
+$forSaleRent = isset($_GET['forSaleRent']) ? $_GET['forSaleRent'] : '';
+$searchQuery = isset($_GET['searchQuery']) ? $_GET['searchQuery'] : '';
+$propType = isset($_GET['propType']) ? $_GET['propType'] : '';
+$bedrooms = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
+$minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : '';
+$maxPrice = isset($_GET['maxPrice']) ? $_GET['maxPrice'] : '';
 
+// Construct the base query
+$sql = "SELECT * FROM listing WHERE status = 'approved'";
+
+// Initialize parameters array and types string
+$params = [];
+$types = '';
+
+// Add filters to the query
+if ($forSaleRent != '') {
+    $sql .= " AND forSaleRent = ?";
+    $params[] = $forSaleRent;
+    $types .= 's';
+}
+if ($searchQuery != '') {
+    $sql .= " AND (title LIKE ? OR streetAddress LIKE ?)";
+    $params[] = "%$searchQuery%";
+    $params[] = "%$searchQuery%";
+    $types .= 'ss';
+}
+if ($propType != '') {
+    $sql .= " AND propType = ?";
+    $params[] = $propType;
+    $types .= 's';
+}
+if ($bedrooms != '') {
+    $sql .= " AND bedrooms = ?";
+    $params[] = $bedrooms;
+    $types .= 'i';
+}
+if ($minPrice != '') {
+    $sql .= " AND pricePm >= ?";
+    $params[] = $minPrice;
+    $types .= 'i';
+}
+if ($maxPrice != '') {
+    $sql .= " AND pricePm <= ?";
+    $params[] = $maxPrice;
+    $types .= 'i';
+}
+
+// Prepare and execute the query for fetching listings
+$stmt = $conn->prepare($sql);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Handle adding to wishlist
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['listingId'])) {
+        $listingId = $_POST['listingId'];  // Make sure this matches the actual input field name
+
+        // Prepare and execute the query to add listing to wishlist
+        $wishlistStmt = $conn->prepare("INSERT INTO wishlist (userId, listingId) VALUES (?, ?)");
+        $wishlistStmt->bind_param('ii', $userId, $listingId);
+        $wishlistStmt->execute();
+        $wishlistStmt->close();
+
+        // Optionally redirect to avoid resubmission
+        header("Location: listing.php");
+        exit();
+    }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +100,7 @@ $result = $conn->query($sql);
     <!-- Styles -->
     <link rel="stylesheet" href="../styles/navbar.css">
     <link rel="stylesheet" href="../styles/listings.css">
+    <link rel="stylesheet" href="../styles/globalStyles.css">
 </head>
 <body>
 
@@ -68,58 +139,58 @@ $result = $conn->query($sql);
       </nav>
 
     <!-- Filtering -->
-    <div class="container filtering mb-4">
-        <div class="row">
-            <div class="col-3 mb-3">
-                <select class="form-select filter" id="autoSizingSelect">
-                    <option selected>For Sale</option>
-                    <option value="1">To Rent</option>
-                </select>
-            </div>
-
-            <div class="col-8 mb-3">
-                <input type="password" class="form-control filter" id="text" placeholder="Search for a City, Suburb, etc.">
-            </div>
-
-            <div class="col-1 mb-3">
-                <div class="search filter">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2E2212"><path d="M380-320q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l224 224q11 11 11 28t-11 28q-11 11-28 11t-28-11L532-372q-30 24-69 38t-83 14Zm0-80q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+        <form method="GET" action="listing.php" class="container filtering mb-4"> <!-- Changed to a form with method GET -->
+            <div class="row">
+                <div class="col-3 mb-3">
+                    <select class="form-select filter" id="forSaleRent" name="forSaleRent">
+                        <option value="sale">For Sale</option>
+                        <option value="rent">To Rent</option>
+                    </select>
                 </div>
-                
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-2">
-                <select class="form-select filter" id="autoSizingSelect">
-                    <option selected>For Sale</option>
-                    <option value="1">To Rent</option>
-                </select>
+                <div class="col-8 mb-3">
+                    <input type="text" class="form-control filter" id="searchQuery" name="searchQuery" placeholder="Search for a City or State">
+                </div>
+
+                <div class="col-1 mb-3">
+                    <button type="submit" class="btn btn-primary search filter">Apply</button>
+                </div>
             </div>
 
-            <div class="col-2">
-                <select class="form-select filter" id="autoSizingSelect">
-                    <option selected>Bedrooms</option>
-                    <option value="1">1</option>
-                    <option value="1">2</option>
-                    <option value="1">3</option>
-                </select>
-            </div>
+            <div class="row">
+                <div class="col-2">
+                    <select class="form-select filter" id="propType" name="propType">
+                        <option value="">Property Type</option>
+                        <option value="Treehouse">Treehouse</option>
+                        <option value="Flower-den">Flower-den</option>
+                        <option value="Mountainside Cottage">Mountainside Cottage</option>
+                        <option value="Underwater Cove">Underwater Cove</option>
+                        <option value="Mushroom House">Mushroom House</option>
+                    </select>
+                </div>
 
-            <div class="col-2">
-                <input type="password" class="form-control filter" id="number" placeholder="Minimum Price">
-            </div>
+                <div class="col-2">
+                    <select class="form-select filter" id="bedrooms" name="bedrooms">
+                        <option value="">Bedrooms</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
 
-            <div class="col-2">
-                <input type="password" class="form-control filter" id="number" placeholder="Maximum Price">
-            </div>
+                <div class="col-2">
+                    <input type="number" class="form-control filter" id="minPrice" name="minPrice" placeholder="Minimum Price">
+                </div>
 
-            <div class="col-2">
-                <input type="password" class="form-control filter" id="text" placeholder="Search for a City, Suburb, etc.">
+                <div class="col-2">
+                    <input type="number" class="form-control filter" id="maxPrice" name="maxPrice" placeholder="Maximum Price">
+                </div>
+
+                <div class="col-2">
+                    <button class="clear" id="clear-filters">Clear All Filters</button>
+                </div>
             </div>
-            
-        </div>
-    </div>
+        </form>
 
     <!-- header -->
     <div class="container mb-3">
@@ -129,7 +200,7 @@ $result = $conn->query($sql);
             </div>
     </div>
 
-    <div class="container listing-bg">
+    <div class="container listing-bg mb-5">
     <?php if ($result->num_rows > 0): ?>
         <?php while ($row = $result->fetch_assoc()): ?>
             <div class="listing-card mb-3">
@@ -141,7 +212,7 @@ $result = $conn->query($sql);
                     </div>
                     <!-- content -->
                     <div class="col-7">
-                        <h2><?php echo htmlspecialchars($row['title']); ?></h2>
+                        <h3><?php echo htmlspecialchars($row['title']); ?></h3>
                         <p><?php echo htmlspecialchars($row['streetAddress']); ?></p>
 
                         <div class="align">
@@ -149,30 +220,34 @@ $result = $conn->query($sql);
                             <p><?php echo htmlspecialchars($row['pricePm']); ?></p>
                         </div>
                         <div class="align2">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2E2212"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39v-554.26q0-37.78 26.61-64.39t64.39-26.61H240v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34q12.34 12.33 12.34 30.29v37.37h309v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34Q720-863.46 720-845.5v37.37h37.13q37.78 0 64.39 26.61t26.61 64.39v554.26q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-91h554.26V-560H202.87v397.13Zm0-477.13h554.26v-77.13H202.87V-640Zm0 0v-77.13V-640ZM480-398.09q-17.81 0-29.86-12.05T438.09-440q0-17.81 12.05-29.86T480-481.91q17.81 0 29.86 12.05T521.91-440q0 17.81-12.05 29.86T480-398.09Zm-160 0q-17.81 0-29.86-12.05T278.09-440q0-17.81 12.05-29.86T320-481.91q17.81 0 29.86 12.05T361.91-440q0 17.81-12.05 29.86T320-398.09Zm320 0q-17.48 0-29.7-12.05-12.21-12.05-12.21-29.86t12.21-29.86q12.22-12.05 29.82-12.05t29.7 12.05q12.09 12.05 12.09 29.86t-12.05 29.86q-12.05 12.05-29.86 12.05Zm-160 160q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm-160 0q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm320 0q-17.48 0-29.7-12.21-12.21-12.22-12.21-29.82t12.21-29.7q12.22-12.09 29.82-12.09t29.7 12.05q12.09 12.05 12.09 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39v-554.26q0-37.78 26.61-64.39t64.39-26.61H240v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34q12.34 12.33 12.34 30.29v37.37h309v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34Q720-863.46 720-845.5v37.37h37.13q37.78 0 64.39 26.61t26.61 64.39v554.26q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-91h554.26V-560H202.87v397.13Zm0-477.13h554.26v-77.13H202.87V-640Zm0 0v-77.13V-640ZM480-398.09q-17.81 0-29.86-12.05T438.09-440q0-17.81 12.05-29.86T480-481.91q17.81 0 29.86 12.05T521.91-440q0 17.81-12.05 29.86T480-398.09Zm-160 0q-17.81 0-29.86-12.05T278.09-440q0-17.81 12.05-29.86T320-481.91q17.81 0 29.86 12.05T361.91-440q0 17.81-12.05 29.86T320-398.09Zm320 0q-17.48 0-29.7-12.05-12.21-12.05-12.21-29.86t12.21-29.86q12.22-12.05 29.82-12.05t29.7 12.05q12.09 12.05 12.09 29.86t-12.05 29.86q-12.05 12.05-29.86 12.05Zm-160 160q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm-160 0q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm320 0q-17.48 0-29.7-12.21-12.21-12.22-12.21-29.82t12.21-29.7q12.22-12.09 29.82-12.09t29.7 12.05q12.09 12.05 12.09 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Z"/></svg>
                             <p><?php echo htmlspecialchars($row['availableDate']); ?></p>
                         </div>
                         <div class="row">
                             <div class="col-1 interior">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2E2212"><path d="M80-200v-240q0-27 11-49t29-39v-112q0-50 35-85t85-35h160q23 0 43 8.5t37 23.5q17-15 37-23.5t43-8.5h160q50 0 85 35t35 85v112q18 17 29 39t11 49v240h-80v-80H160v80H80Zm440-360h240v-80q0-17-11.5-28.5T720-680H560q-17 0-28.5 11.5T520-640v80Zm-320 0h240v-80q0-17-11.5-28.5T400-680H240q-17 0-28.5 11.5T200-640v80Zm-40 200h640v-80q0-17-11.5-28.5T760-480H200q-17 0-28.5 11.5T160-440v80Zm640 0H160h640Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M80-200v-240q0-27 11-49t29-39v-112q0-50 35-85t85-35h160q23 0 43 8.5t37 23.5q17-15 37-23.5t43-8.5h160q50 0 85 35t35 85v112q18 17 29 39t11 49v240h-80v-80H160v80H80Zm440-360h240v-80q0-17-11.5-28.5T720-680H560q-17 0-28.5 11.5T520-640v80Zm-320 0h240v-80q0-17-11.5-28.5T400-680H240q-17 0-28.5 11.5T200-640v80Zm-40 200h640v-80q0-17-11.5-28.5T760-480H200q-17 0-28.5 11.5T160-440v80Zm640 0H160h640Z"/></svg>
                                 <p><?php echo htmlspecialchars($row['bedrooms']); ?></p>
                             </div>
                             <div class="col-1 interior">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2E2212"><path d="M280-600q-33 0-56.5-23.5T200-680q0-33 23.5-56.5T280-760q33 0 56.5 23.5T360-680q0 33-23.5 56.5T280-600ZM200-80q-17 0-28.5-11.5T160-120q-33 0-56.5-23.5T80-200v-240h120v-30q0-38 26-64t64-26q20 0 37 8t31 22l56 62q8 8 15.5 15t16.5 13h274v-326q0-14-10-24t-24-10q-6 0-11.5 2.5T664-790l-50 50q5 17 2 33.5T604-676L494-788q14-9 30-11.5t32 3.5l50-50q16-16 36.5-25t43.5-9q48 0 81 33t33 81v326h80v240q0 33-23.5 56.5T800-120q0 17-11.5 28.5T760-80H200Zm-40-120h640v-160H160v160Zm0 0h640-640Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M280-600q-33 0-56.5-23.5T200-680q0-33 23.5-56.5T280-760q33 0 56.5 23.5T360-680q0 33-23.5 56.5T280-600ZM200-80q-17 0-28.5-11.5T160-120q-33 0-56.5-23.5T80-200v-240h120v-30q0-38 26-64t64-26q20 0 37 8t31 22l56 62q8 8 15.5 15t16.5 13h274v-326q0-14-10-24t-24-10q-6 0-11.5 2.5T664-790l-50 50q5 17 2 33.5T604-676L494-788q14-9 30-11.5t32 3.5l50-50q16-16 36.5-25t43.5-9q48 0 81 33t33 81v326h80v240q0 33-23.5 56.5T800-120q0 17-11.5 28.5T760-80H200Zm-40-120h640v-160H160v160Zm0 0h640-640Z"/></svg>
                                 <p><?php echo htmlspecialchars($row['bathrooms']); ?></p>
                             </div>
                             <div class="col-1 interior">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2E2212"><path d="M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z"/></svg>
                                 <p><?php echo htmlspecialchars($row['parkingSpace']); ?></p>
                             </div>
                             <div class="col-2 interior2">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2E2212"><path d="M400-80H120q-33 0-56.5-23.5T40-160v-240h80v240h280v80Zm160 0v-80h280v-240h80v240q0 33-23.5 56.5T840-80H560ZM40-560v-240q0-33 23.5-56.5T120-880h280v80H120v240H40Zm800 0v-240H560v-80h280q33 0 56.5 23.5T920-800v240h-80Z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M400-80H120q-33 0-56.5-23.5T40-160v-240h80v240h280v80Zm160 0v-80h280v-240h80v240q0 33-23.5 56.5T840-80H560ZM40-560v-240q0-33 23.5-56.5T120-880h280v80H120v240H40Zm800 0v-240H560v-80h280q33 0 56.5 23.5T920-800v240h-80Z"/></svg>
                                 <p><?php echo htmlspecialchars($row['lotSize']); ?></p>
                             </div>
                         </div>
                     </div>
-                    <div class="col-2 heart-button">
-
+                    <div class="col-2">
+                        <form method="POST" action="listing.php">
+                            <input type="hidden" name="UserId" value="<?php echo htmlspecialchars($userId); ?>">
+                            <input type="hidden" name="listingId" value="<?php echo htmlspecialchars($row['id']); ?>">
+                            <button type="submit" class="btn wishlist-button"></button>
+                        </form>
                     </div>
                 </div>
                 </a>
@@ -183,8 +258,13 @@ $result = $conn->query($sql);
     <?php endif; ?>
     <?php $conn->close(); ?>
 </div>
+
 <!-- Footer -->
 <?php include '../components/footer.php'; ?>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YmQWgM0g7H3+rxRWxjT0zuGzWn6FEF9KSpZZ1c1g57HDv3j3kxjcG0aGSkUQf1aXI" crossorigin="anonymous"></script>
+
     
 </body>
 </html>

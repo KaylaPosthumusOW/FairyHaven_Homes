@@ -1,9 +1,9 @@
 <?php
 session_start(); // Start the session
-require '../config.php';
+require '../config.php'; // Include database configuration
 
 // Check if the session variable 'email' is set
-if(!isset($_SESSION['email'])){
+if (!isset($_SESSION['email'])) {
     header("Location: pages/login.php"); // Redirect to login page if the user is not logged in
     exit(); // Terminate the script to ensure redirection
 }
@@ -20,9 +20,9 @@ $result = $stmt->get_result();
 
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
-    // Set user_id in session if not already set
-    if (!isset($_SESSION['user_id'])) {
-        $_SESSION['user_id'] = $row['user_id'];
+    // Ensure userId is set in session
+    if (!isset($_SESSION['UserId'])) {
+        $_SESSION['UserId'] = $row['UserId']; // Ensure 'UserId' is the correct column name
     }
 } else {
     // Handle the case where no user is found
@@ -36,27 +36,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $updatedSurname = $_POST['surname'];
     $updatedEmail = $_POST['email'];
 
-    // SQL query to update the user information
-    $sqlUpdate = "UPDATE users SET firstname=?, surname=?, email=? WHERE id=?";
-    $stmt = $conn->prepare($sqlUpdate);
-    $stmt->bind_param("sssi", $updatedFirstname, $updatedSurname, $updatedEmail, $_SESSION['user_id']);
+    // Ensure 'UserId' exists in session before using it
+    if (isset($_SESSION['UserId'])) {
+        // SQL query to update the user information
+        $sqlUpdate = "UPDATE users SET firstname=?, surname=?, email=? WHERE UserId=?";
+        $stmt = $conn->prepare($sqlUpdate);
+        $stmt->bind_param("sssi", $updatedFirstname, $updatedSurname, $updatedEmail, $_SESSION['UserId']);
 
-    if ($stmt->execute()) {
-        // Update the session variables
-        $_SESSION['firstname'] = $updatedFirstname;
-        $_SESSION['surname'] = $updatedSurname;
-        $_SESSION['email'] = $updatedEmail;
+        if ($stmt->execute()) {
+            // Update the session variables
+            $_SESSION['firstname'] = $updatedFirstname;
+            $_SESSION['surname'] = $updatedSurname;
+            $_SESSION['email'] = $updatedEmail;
 
-        // Optionally, refresh the page to reflect changes
-        header("Location: profile.php");
-        exit();
+            // Optionally, refresh the page to reflect changes
+            header("Location: profile.php");
+            exit();
+        } else {
+            echo "Error updating record: " . $conn->error;
+        }
     } else {
-        echo "Error updating record: " . $conn->error;
+        echo "User ID not found in session.";
     }
 }
+
+    // Check if 'UserId' exists in the session
+if (isset($_SESSION['UserId'])) {
+    $userId = $_SESSION['UserId'];
+
+    // Query to fetch listings from the wishlist for the user
+    $sqlWishlist = "SELECT listing.* FROM wishlist 
+                    JOIN listing ON wishlist.listingId = listing.id 
+                    WHERE wishlist.userId = ?";
+    $stmtWishlist = $conn->prepare($sqlWishlist);
+    $stmtWishlist->bind_param("i", $userId);
+    $stmtWishlist->execute();
+    $wishlistResult = $stmtWishlist->get_result();
+} else {
+    echo "User ID not found in session.";
+    exit();
+}
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -71,6 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../styles/navbar.css">
     <link rel="stylesheet" href="../styles/listings.css">
     <link rel="stylesheet" href="../styles/profile.css">
+    <link rel="stylesheet" href="../styles/globalStyles.css">
+
 </head>
 <body>
 
@@ -90,6 +112,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 editButton.classList.add('d-none');
                 saveButton.classList.remove('d-none');
+            });
+
+            saveButton.addEventListener('click', function() {
+                firstnameField.setAttribute('readonly', 'readonly');
+                surnameField.setAttribute('readonly', 'readonly');
+                emailField.setAttribute('readonly', 'readonly');
+
+                editButton.classList.remove('d-none');
+                saveButton.classList.add('d-none');
             });
         });
     </script>
@@ -147,29 +178,90 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </div>
                             <div class="col-2">
                                 <button type="button" id="editButton" class="btn btn-link edit">Edit</button>
+                                <button type="submit" id="saveButton" class="btn save d-none">Save</button>
                             </div>
+                            
                         </div>
 
                         <div class="row mb-3">
-                            <div class="col-6">
-                                <p><strong>Firstname</strong></p>
-                                <p><strong>Lastname</strong></p>
+                            <div class="col-4">
+                                <p class="mb-4"><strong>First name</strong></p>
+                                <p class="mb-4"><strong>Last name</strong></p>
                                 <p><strong>Email address</strong></p>
                             </div>
-                            <div class="col-6 info">
+                            <div class="col-8 info">
                                 <input type="text" name="firstname" id="firstname" class="form-control" value="<?php echo htmlspecialchars($row['firstname']); ?>" readonly>
                                 <input type="text" name="surname" id="surname" class="form-control mt-2" value="<?php echo htmlspecialchars($row['surname']); ?>" readonly>
                                 <input type="email" name="email" id="email" class="form-control mt-2" value="<?php echo htmlspecialchars($row['email']); ?>" readonly>
                             </div>
                         </div>
-                        <button type="submit" id="saveButton" class="btn save d-none">Save</button>
+                        
                     </form>
+                    <a href="../logout.php">
                     <button class="logOut mt-4">
                         <p>Log Out</p>
                     </button>
+                    </a>
+                    
                 </div>
                 </div>
-                <div class="col-7"></div>
+                <div class="col-7 blue-bg">
+                    <div class="wishlist">
+                        <h2>Saved Properties</h2>
+                        <?php if ($wishlistResult->num_rows > 0): ?>
+                            <?php while ($listing = $wishlistResult->fetch_assoc()): ?>
+                                <div class="listing-card mb-3">
+                                    <a href="specificListing.php?id=<?php echo $listing['id']; ?>" class="text-decoration-none text-dark">
+                                        <div class="row">
+                                            <!-- Image -->
+                                            <div class="col-4">
+                                                <img class="listing-img" src="../uploads/<?php echo htmlspecialchars($listing['images']); ?>" alt="Listing Image">
+                                            </div>
+                                            <!-- Content -->
+                                            <div class="col-7">
+                                                <h3><?php echo htmlspecialchars($listing['title']); ?></h3>
+                                                <p><?php echo htmlspecialchars($listing['streetAddress']); ?></p>
+
+                                                <div class="align">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2E2212"><path d="M888.13-717.13v474.26q0 37.78-26.61 64.39t-64.39 26.61H162.87q-37.78 0-64.39-26.61t-26.61-64.39v-474.26q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39Zm-725.26 76.41h634.26v-76.41H162.87v76.41Zm0 160v237.85h634.26v-237.85H162.87Zm0 237.85v-474.26 474.26Z"/></svg>
+                                                    <p><?php echo htmlspecialchars($listing['pricePm']); ?></p>
+                                                </div>
+                                                <div class="align2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39v-554.26q0-37.78 26.61-64.39t64.39-26.61H240v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34q12.34 12.33 12.34 30.29v37.37h309v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34Q720-863.46 720-845.5v37.37h37.13q37.78 0 64.39 26.61t26.61 64.39v554.26q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-91h554.26V-560H202.87v397.13Zm0-477.13h554.26v-77.13H202.87V-640Zm0 0v-77.13V-640ZM480-398.09q-17.81 0-29.86-12.05T438.09-440q0-17.81 12.05-29.86T480-481.91q17.81 0 29.86 12.05T521.91-440q0 17.81-12.05 29.86T480-398.09Zm-160 0q-17.81 0-29.86-12.05T278.09-440q0-17.81 12.05-29.86T320-481.91q17.81 0 29.86 12.05T361.91-440q0 17.81-12.05 29.86T320-398.09Zm320 0q-17.48 0-29.7-12.05-12.21-12.05-12.21-29.86t12.21-29.86q12.22-12.05 29.82-12.05t29.7 12.05q12.09 12.05 12.09 29.86t-12.05 29.86q-12.05 12.05-29.86 12.05Zm-160 160q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm-160 0q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm320 0q-17.48 0-29.7-12.21-12.21-12.22-12.21-29.82t12.21-29.7q12.22-12.09 29.82-12.09t29.7 12.05q12.09 12.05 12.09 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Z"/></svg>
+                                                    <p><?php echo htmlspecialchars($listing['availableDate']); ?></p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-2 interior">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M80-200v-240q0-27 11-49t29-39v-112q0-50 35-85t85-35h160q23 0 43 8.5t37 23.5q17-15 37-23.5t43-8.5h160q50 0 85 35t35 85v112q18 17 29 39t11 49v240h-80v-80H160v80H80Zm440-360h240v-80q0-17-11.5-28.5T720-680H560q-17 0-28.5 11.5T520-640v80Zm-320 0h240v-80q0-17-11.5-28.5T400-680H240q-17 0-28.5 11.5T200-640v80Zm-40 200h640v-80q0-17-11.5-28.5T760-480H200q-17 0-28.5 11.5T160-440v80Zm640 0H160h640Z"/></svg>
+                                                        <p><?php echo htmlspecialchars($listing['bedrooms']); ?></p>
+                                                    </div>
+                                                    <div class="col-2 interior">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M280-600q-33 0-56.5-23.5T200-680q0-33 23.5-56.5T280-760q33 0 56.5 23.5T360-680q0 33-23.5 56.5T280-600ZM200-80q-17 0-28.5-11.5T160-120q-33 0-56.5-23.5T80-200v-240h120v-30q0-38 26-64t64-26q20 0 37 8t31 22l56 62q8 8 15.5 15t16.5 13h274v-326q0-14-10-24t-24-10q-6 0-11.5 2.5T664-790l-50 50q5 17 2 33.5T604-676L494-788q14-9 30-11.5t32 3.5l50-50q16-16 36.5-25t43.5-9q48 0 81 33t33 81v326h80v240q0 33-23.5 56.5T800-120q0 17-11.5 28.5T760-80H200Zm-40-120h640v-160H160v160Zm0 0h640-640Z"/></svg>
+                                                        <p><?php echo htmlspecialchars($listing['bathrooms']); ?></p>
+                                                    </div>
+                                                    <div class="col-2 interior">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M240-200v40q0 17-11.5 28.5T200-120h-40q-17 0-28.5-11.5T120-160v-320l84-240q6-18 21.5-29t34.5-11h440q19 0 34.5 11t21.5 29l84 240v320q0 17-11.5 28.5T800-120h-40q-17 0-28.5-11.5T720-160v-40H240Zm-8-360h496l-42-120H274l-42 120Zm-32 80v200-200Zm100 160q25 0 42.5-17.5T360-380q0-25-17.5-42.5T300-440q-25 0-42.5 17.5T240-380q0 25 17.5 42.5T300-320Zm360 0q25 0 42.5-17.5T720-380q0-25-17.5-42.5T660-440q-25 0-42.5 17.5T600-380q0 25 17.5 42.5T660-320Zm-460 40h560v-200H200v200Z"/></svg>
+                                                        <p><?php echo htmlspecialchars($listing['parkingSpace']); ?></p>
+                                                    </div>
+                                                    <div class="col-3 interior2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="http://www.w3.org/2000/svg" width="24px" fill="#2E2212"><path d="M400-80H120q-33 0-56.5-23.5T40-160v-240h80v240h280v80Zm160 0v-80h280v-240h80v240q0 33-23.5 56.5T840-80H560ZM40-560v-240q0-33 23.5-56.5T120-880h280v80H120v240H40Zm800 0v-240H560v-80h280q33 0 56.5 23.5T920-800v240h-80Z"/></svg>
+                                                        <p><?php echo htmlspecialchars($listing['lotSize']); ?></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <p>No properties in wishlist.</p>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                </a>
+            </div>
+                    </div>
+                </div>
         </div>
     </div>
     
