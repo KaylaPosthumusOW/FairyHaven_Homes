@@ -138,6 +138,8 @@ The Sign In/Login functionality enables users to authenticate themselves by prov
 
 ![FHH_Homepage](../fairyhaven_homes/assets/readme/signUp_mockup.png)
 
+![FHH_Homepage](assets/readme/signUp_mockup.png)
+
 ## Standard User
 
 ### Feature 2 - Viewing and Adding Properties
@@ -321,4 +323,4 @@ Distributed under the MIT License. See `LICENSE` for more information.\
 - [Pinterest](https://za.pinterest.com/kaylaposthu/dv200_t3/)
 - [Figma](https://www.figma.com/design/JHGE9saJciFL4sHJmTFPkg/DV200_T3_FairyHaven-Homes?node-id=0-1&t=jfW3z9RIuaaeWvY2-1)
 - [Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
-- [Lecturer](https://github.com/TsungaiKatsuroOW)
+- [Lecturer](https://github.com/TsungaiKats)
