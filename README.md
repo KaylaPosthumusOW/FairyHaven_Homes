@@ -13,7 +13,7 @@
 <p align="center">
 
   <a href="https://github.com/KaylaPosthumusOW/FairyHaven_Homes">
-    <img src="../fairyhaven_homes/assets/readme/FHH_Logo.png" alt="Logo" width="150" height="150">
+    <img src="assets/readme/FHH_Logo.png" alt="Logo" width="150" height="150">
   </a>
   
   <h3 align="center">Exhibito</h3>
@@ -71,7 +71,7 @@
 
 <!-- header image of project -->
 
-![FairyHaven_Homes_Logo](../fairyhaven_homes/assets/FHH-Logo_white.png)
+![FairyHaven_Homes_Logo](assets/FHH-Logo_white.png)
 
 ### Project Description
 
@@ -136,8 +136,6 @@ By following these steps, you will have the FairyHaven Homes project up and runn
 
 The Sign In/Login functionality enables users to authenticate themselves by providing their credentials—specifically, their email and password. Once authenticated, users can access their personalized dashboard, view saved properties, manage their listings, and interact with other features available to logged-in users.
 
-![FHH_Homepage](../fairyhaven_homes/assets/readme/signUp_mockup.png)
-
 ![FHH_Homepage](assets/readme/signUp_mockup.png)
 
 ## Standard User
@@ -146,19 +144,19 @@ The Sign In/Login functionality enables users to authenticate themselves by prov
 
 The "View properties and adding Properties" feature is at the core of the FairyHaven Homes platform. It provides users with the ability to browse through a variety of enchanting properties available for rent or purchase and allows authorized users to add new properties to the listings. This feature is designed to deliver a magical and immersive user experience while ensuring ease of use and efficient property management.
 
-![ExhibitoLogo](../fairyhaven_homes/assets/readme/property_mockup.png)
+![ExhibitoLogo](assets/readme/property_mockup.png)
 
 ### Feature 3 - Filtering Properties
 
 The "Filtering Properties" feature enhances the user experience by allowing visitors to quickly and efficiently find properties that match their preferences. This functionality is essential for providing a streamlined and tailored browsing experience, especially given the variety of unique and magical properties available on FairyHaven Homes.
 
-![ExhibitoLogo](../fairyhaven_homes/assets/readme/filtering_mockup.png)
+![ExhibitoLogo](assets/readme/filtering_mockup.png)
 
 ### Feature 4 - Profile page editing and wishlist
 
 This feature enhances the user experience by allowing users to personalize their accounts and curate a list of favorite properties. This section provides an in-depth look at the functionality available on the profile page, focusing on how users can edit their personal information. The wishlist functionality allows users to keep track of properties they are interested in, providing a convenient way to revisit potential dream homes without having to search for them again.
 
-![ExhibitoLogo](../fairyhaven_homes/assets/readme/profile_mockup.png)
+![ExhibitoLogo](assets/readme/profile_mockup.png)
 
 ## Admin User
 
@@ -166,7 +164,7 @@ This feature enhances the user experience by allowing users to personalize their
 
 The "Approve or Decline New Properties" feature provides admins with the ability to moderate and manage property listings submitted by users. This feature ensures that only suitable and high-quality listings appear on the FairyHaven Homes platform, maintaining the site's integrity and user experience.
 
-![ExhibitoLogo](../fairyhaven_homes/assets/readme/AdminDash_mockup.png)
+![ExhibitoLogo](assets/readme/AdminDash_mockup.png)
 
 <!-- CONCEPT PROCESS -->
 <!-- Briefly explain your concept ideation process -->
@@ -179,16 +177,16 @@ The idea for FairyHaven Homes began with a creative vision to design a fantasy-t
 
 For the ideation phase, I selected a color palette that captures the mystical essence of the project, combining soft, enchanting hues with vibrant, whimsical tones. Alongside this, I carefully chose typography that complements the fantasy theme, balancing readability with a touch of magic to enhance the overall feel of the platform.
 
-![Wireframes](../fairyhaven_homes/assets/readme/colour_palette.png)
-![Wireframes](../fairyhaven_homes/assets/readme/Logo_versions.png)
+![Wireframes](assets/readme/colour_palette.png)
+![Wireframes](assets/readme/Logo_versions.png)
 
 ### Wireframes
 
-![Wireframes](../fairyhaven_homes/assets/readme/WF1.png)
-![Wireframes](../fairyhaven_homes/assets/readme/WF2.png)
+![Wireframes](assets/readme/WF1.png)
+![Wireframes](assets/readme/WF2.png)
 
 ### ER Diagram
-![ER Diagram](../fairyhaven_homes/assets/readme/ER_Diagram.png)
+![ER Diagram](assets/readme/ER_Diagram.png)
 
 <!-- DEVELOPMENT PROCESS -->
 
@@ -259,15 +257,15 @@ The development process for FairyHaven Homes involves several stages to bring th
 
 ### Mockups
 
-![homepage_mockup](../fairyhaven_homes/assets/readme/signUp_mockup.png)
+![homepage_mockup](assets/readme/signUp_mockup.png)
 
-![properties_mockup](../fairyhaven_homes/assets/readme/property_mockup.png)
+![properties_mockup](assets/readme/property_mockup.png)
 
-![profile_mockup](../fairyhaven_homes/assets/readme/profile_mockup.png)
+![profile_mockup](assets/readme/profile_mockup.png)
 
-![filtering_mockup](../fairyhaven_homes/assets/readme/filtering_mockup.png)
+![filtering_mockup](assets/readme/filtering_mockup.png)
 
-![admin_mockup](../fairyhaven_homes/assets/readme/AdminDash_mockup.png)
+![admin_mockup](assets/readme/AdminDash_mockup.png)
 
 <!-- VIDEO DEMONSTRATION -->
 
