@@ -206,8 +206,7 @@ The development process for FairyHaven Homes involves several stages to bring th
 - Used JavaScript for client-side dynamic content updates and user interactions.
 
 **Design Architecture:**
-- Followed an MVC (Model-View-Controller) architecture for the backend to maintain a clear separation of concerns.
-- Designed a modular frontend approach, using reusable components for forms, property cards, and modals to enhance maintainability and scalability.
+- Used HTML, Bootstrap, and CSS: The frontend of FairyHaven Homes is built using HTML, Bootstrap, and CSS to create a visually appealing and responsive user interface. HTML provides the structure of the web pages, while CSS is used for styling elements, creating a colorful and enchanting design that captures the magical theme of the project. Bootstrap simplifies the process of creating responsive layouts and ensures consistency across different screen sizes and devices.
 
 **Plugins and Tools:**
 - Utilized phpMyAdmin for managing MySQL databases, making it easy to handle database schemas, run queries, and perform backups.
