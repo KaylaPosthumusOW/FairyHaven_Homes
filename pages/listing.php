@@ -153,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="col-1 mb-3">
-                    <button type="submit" class="btn btn-primary search filter">Apply</button>
+                    <button type="submit" class="btn search filter">Apply</button>
                 </div>
             </div>
 

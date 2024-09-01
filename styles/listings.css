@@ -15,6 +15,7 @@
     background-color: white;
     border-radius: 5px;
     border: none;
+    color:#2E2212;
 }
 
 .center-heading{
@@ -90,7 +91,7 @@
     background-image: url(../assets/Icons/heart_icon\ hover.svg);
 }
 
-.wishlist-button.check {
+.filled {
     background-image: url(../assets/Icons/heart_icon_filled.svg);
 }
 
