@@ -16,7 +16,7 @@ $UserId = isset($_SESSION['UserId']) ? $_SESSION['UserId'] : '';  // Retrieve Us
 
 // Initialize filters
 $forSaleRent = isset($_GET['forSaleRent']) ? $_GET['forSaleRent'] : '';
-$searchQuery = isset($_GET['searchQuery']) ? $_GET['searchQuery'] : '';
+$searchQuery = isset($_GET['searchQuery']) ? trim($_GET['searchQuery']) : '';
 $propType = isset($_GET['propType']) ? $_GET['propType'] : '';
 $bedrooms = isset($_GET['bedrooms']) ? $_GET['bedrooms'] : '';
 $minPrice = isset($_GET['minPrice']) ? $_GET['minPrice'] : '';
@@ -36,7 +36,7 @@ if ($forSaleRent != '') {
     $types .= 's';
 }
 if ($searchQuery != '') {
-    $sql .= " AND (title LIKE ? OR streetAddress LIKE ?)";
+    $sql .= " AND (city LIKE ? OR state LIKE ?)";
     $params[] = "%$searchQuery%";
     $params[] = "%$searchQuery%";
     $types .= 'ss';
