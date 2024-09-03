@@ -92,4 +92,15 @@
     color: white !important;
 }
 
+.remove-btn{
+    background-color: #fff;
+    border: 2px solid #6E8280;
+    border-radius: 5px;
+}
+
+.remove-btn:hover{
+    border: 2px solid #6E8280;
+    background-color: #6E8280;
+}
+
 

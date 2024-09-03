@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Execute the query
     if (mysqli_query($conn, $sql)) {
-        echo "New property added successfully!";
+        echo "<script>alert('New property added successfully');</script>";
         // Optionally, redirect to a confirmation page
         header("Location: ../homepage.php");
         exit();

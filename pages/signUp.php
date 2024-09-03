@@ -24,9 +24,9 @@
 
         // Execute the prepared statement
         if($stmt->execute()){
-            echo "Registration Complete"; // Success message
+            echo "<script>alert('Registration Complete');</script>"; // Success message
         } else {
-            echo "Error: " . $stmt->error; // Error message
+            echo "<script>alert('Error: " . $stmt->error . "');</script>"; // Error message
         }
         
         // Close the statement and connection
@@ -47,7 +47,9 @@
     <!-- Styles -->
     <link rel="stylesheet" href="../styles/signInUp.css">
     <link rel="stylesheet" href="../styles/navbar.css">
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 </head>
 <body>
 
@@ -98,10 +100,9 @@
                 <h2>FairyHaven Homes</h2>
             </div>
         </div>
-        <p>Already have an account?
-        <a class="link" href="<?php echo '../pages/logIn.php'; ?>">Log In</a>
-        </p>
-    
+        
+        <p class="welcome">Welcome to FairyHaven Homes, sign up and view our mystical properties and find your dream home</p>
+           
         <!-- Form -->
         <form method="POST" action="signUp.php"> 
             <div class="my-3">
@@ -118,15 +119,37 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <span class="input-group-text" id="toggleIcon"><i class="fas fa-eye-slash"></i></span>
+                </div>
             </div>
             <button type="submit" class="btn">Sign Up</button>
+            <p class="login"><small>
+                Already have an account?
+                <a class="link" href="<?php echo '../pages/logIn.php'; ?>">Log In</a>
+                </small>
+                </p>
         </form>
     </div>
 </div>
 
  <!-- Footer -->
  <?php include '../components/footer.php'; ?>
+
+ <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordField = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+
+            toggleIcon.addEventListener('click', function () {
+                const type = passwordField.type === 'password' ? 'text' : 'password';
+                passwordField.type = type;
+                toggleIcon.querySelector('i').classList.toggle('fa-eye');
+                toggleIcon.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+        });
+    </script>
     
 </body>
 </html>

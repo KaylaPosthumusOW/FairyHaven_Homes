@@ -16,8 +16,11 @@ $surname = isset($_SESSION['surname']) ? $_SESSION['surname'] : '';
 $listingId = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
 if ($listingId > 0) {
-    // Fetch the specific listing details from the database
-    $sql = "SELECT * FROM listing WHERE id = ?";
+    // Fetch the specific listing details from the database, including agent details
+    $sql = "SELECT listing.*, agent.firstName AS agent_name, agent.email AS agent_email, agent.number AS agent_phone , agent.lastName AS agent_surname
+            FROM listing 
+            LEFT JOIN agent ON listing.agentId = agent.AgentId 
+            WHERE listing.id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $listingId);
     $stmt->execute();
@@ -100,31 +103,10 @@ if ($listingId > 0) {
 
       <!-- Carousel -->
       <div class="container mb-4">
-        <div id="carouselExampleIndicators" class="carousel slide">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
+        <div class="carousel slide">
             <div class="carousel-inner">
-                <div class="carousel-item active">
                 <img src="../uploads/<?php echo htmlspecialchars($listing['images']); ?>" class="images" alt="...">
-                </div>
-                <div class="carousel-item">
-                <img src="../assets/test-imgs/Firefly a tree fairy bedroom 46398.jpg" class="d-block w-100 placeholder" alt="...">
-                </div>
-                <div class="carousel-item">
-                <img src="..." class="d-block w-100 placeholder" alt="...">
-                </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
       </div>
 
@@ -139,11 +121,11 @@ if ($listingId > 0) {
                         <h3><?php echo htmlspecialchars($listing['title']); ?></h3>
                         <p class="address-color"><small><?php echo htmlspecialchars($listing['streetAddress']); ?></small></p>
 
-                        <div class="align">
+                        <div class="text align2">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M888.13-717.13v474.26q0 37.78-26.61 64.39t-64.39 26.61H162.87q-37.78 0-64.39-26.61t-26.61-64.39v-474.26q0-37.78 26.61-64.39t64.39-26.61h634.26q37.78 0 64.39 26.61t26.61 64.39Zm-725.26 76.41h634.26v-76.41H162.87v76.41Zm0 160v237.85h634.26v-237.85H162.87Zm0 237.85v-474.26 474.26Z"/></svg>
                             <p><?php echo htmlspecialchars($listing['pricePm']); ?></p>
                         </div>
-                        <div class="align2">
+                        <div class="text align2">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M202.87-71.87q-37.78 0-64.39-26.61t-26.61-64.39v-554.26q0-37.78 26.61-64.39t64.39-26.61H240v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34q12.34 12.33 12.34 30.29v37.37h309v-37.37q0-17.96 12.46-30.29 12.45-12.34 30.41-12.34t30.29 12.34Q720-863.46 720-845.5v37.37h37.13q37.78 0 64.39 26.61t26.61 64.39v554.26q0 37.78-26.61 64.39t-64.39 26.61H202.87Zm0-91h554.26V-560H202.87v397.13Zm0-477.13h554.26v-77.13H202.87V-640Zm0 0v-77.13V-640ZM480-398.09q-17.81 0-29.86-12.05T438.09-440q0-17.81 12.05-29.86T480-481.91q17.81 0 29.86 12.05T521.91-440q0 17.81-12.05 29.86T480-398.09Zm-160 0q-17.81 0-29.86-12.05T278.09-440q0-17.81 12.05-29.86T320-481.91q17.81 0 29.86 12.05T361.91-440q0 17.81-12.05 29.86T320-398.09Zm320 0q-17.48 0-29.7-12.05-12.21-12.05-12.21-29.86t12.21-29.86q12.22-12.05 29.82-12.05t29.7 12.05q12.09 12.05 12.09 29.86t-12.05 29.86q-12.05 12.05-29.86 12.05Zm-160 160q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm-160 0q-17.81 0-29.86-12.21-12.05-12.22-12.05-29.82t12.05-29.7q12.05-12.09 29.86-12.09t29.86 12.05q12.05 12.05 12.05 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Zm320 0q-17.48 0-29.7-12.21-12.21-12.22-12.21-29.82t12.21-29.7q12.22-12.09 29.82-12.09t29.7 12.05q12.09 12.05 12.09 29.86 0 17.48-12.05 29.7-12.05 12.21-29.86 12.21Z"/></svg>
                             <p><?php echo htmlspecialchars($listing['availableDate']); ?></p>
                         </div>
@@ -196,16 +178,16 @@ if ($listingId > 0) {
                             <h2 class="agent mb-4">Contact Agent</h2>
                             <div class="row">
                                 <div class="col-6">
-                                    <p>First and Lastname</p>
-                                    <p>Phone number</p>
-                                    <p>Email address</p>
-                                    <p>Agency</p>
+                                    <p><strong>First and Last name</strong></p>
+                                    <p><strong>Email address</strong></p>
+                                    <p><strong>Phone number</strong></p>
+                                    <p><strong>Agency</strong></p>
                                 </div>
-                                <div class="col-6">
-                                    <p>Kayla Posthumus</p>
-                                    <p>089 765 3224</p>
-                                    <p>kayla@gmail.com</p>
-                                    <p>Fairies</p>
+                                <div class="email_text col-6">
+                                    <p><?php echo htmlspecialchars($listing['agent_name']); ?> <?php echo htmlspecialchars($listing['agent_surname']); ?></p>
+                                    <p><a href="mailto:<?php echo htmlspecialchars($listing['agent_email']); ?>"><?php echo htmlspecialchars($listing['agent_email']); ?></a></p>
+                                    <p><?php echo htmlspecialchars($listing['agent_phone']); ?></p>
+                                    <p>FairyHaven Homes</p>
                                 </div>
                             </div>
                 </div>

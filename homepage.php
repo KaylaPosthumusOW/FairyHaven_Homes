@@ -65,7 +65,7 @@ $surname = $_SESSION['surname'];
         </div>
       </nav>
 
-      <!-- Homepage header -->
+            <!-- Homepage header -->
        <div class="header-content">
         <h1>FairyHaven Homes</h1>
         <p>Welcome to FairyHaven Homes, explore our magical listings and find your perfect retreat in a world where imagination meets comfort.</p>
@@ -74,8 +74,59 @@ $surname = $_SESSION['surname'];
         </button>
         <img class="homepage-img" src="assets/homepage-img.png" alt="Homepage Image">
        </div>
+
+       <!-- About Us -->
+      <section>
+        <div class="container my-5">
+          <div class="row">
+          <div class="col-6">
+            <div class="colour-block mt-5"></div>
+              <h2 class="header mb-5">About FairyHaven Homes</h2>
+              <h4>Who we are</h4>
+              <p>Founded on a love for the whimsical and extraordinary, FairyHaven Homes is dedicated to offering a magical real estate experience. Our team is passionate about creating beautiful, imaginative living spaces that blend seamlessly with the natural world. From cozy treehouses nestled among the branches to elegant underwater coves, our properties are designed to transport you to a realm of wonder and joy.</p>
+              
+              <h4 class="mt-5">Our Vision</h4>
+              <p>We envision a world where every home tells a story and every property is a sanctuary. Our goal is to build a community of dreamers and adventurers who seek more than just a place to live but a place where they can truly belong. Whether you're looking for a charming mushroom house or a serene mountainside cottage, FairyHaven Homes is here to help you find your perfect match.</p>
+            
+            </div>
+            <div class="col-6">
+              <img class="about_us" src="assets/aboutUs.jpg">
+              <div class="colour_block2"></div>
+            </div>
+            
+          </div>
+        </div>
+      </section>
     
        <!-- Footer -->
-        <?php include 'components/footer.php'; ?>
+       <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="assets/FHH-Logo_white.png" alt="Company Logo">
+            </div>
+
+            <div class="footer-nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-social">
+                <a href="#"><img src="assets/socials/facebook.svg" alt="Facebook"></a>
+                <a href="#"><img src="assets/socials/instagram.svg" alt="Instagram"></a>
+                <a href="#"><img src="assets/socials/twitter.svg" alt="Twitter"></a>
+            </div>
+
+            <div class="footer-subscription">
+                <form>
+                    <input type="email" placeholder="Subscribe to our newsletter">
+                    <button class="subscribe-btn" type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

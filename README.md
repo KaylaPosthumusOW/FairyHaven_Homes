@@ -160,11 +160,19 @@ This feature enhances the user experience by allowing users to personalize their
 
 ## Admin User
 
+![ExhibitoLogo](assets/readme/AdminProfila_mockup.png)
+
 ### Feature 5 -Approve or Decline new properties
 
 The "Approve or Decline New Properties" feature provides admins with the ability to moderate and manage property listings submitted by users. This feature ensures that only suitable and high-quality listings appear on the FairyHaven Homes platform, maintaining the site's integrity and user experience.
 
 ![ExhibitoLogo](assets/readme/AdminDash_mockup.png)
+
+### Feature 6 -Add New Agents
+
+This feature allows the admin to add new agents to the real estate platform and manage which listings each agent is responsible for. It enhances the functionality of the admin dashboard by providing better organization and delegation of property listings to specific agents, making it easier to manage and monitor property listings.
+
+![ExhibitoLogo](assets/readme/adminAgents_mockup.png)
 
 <!-- CONCEPT PROCESS -->
 <!-- Briefly explain your concept ideation process -->
@@ -210,7 +218,7 @@ The development process for FairyHaven Homes involves several stages to bring th
 
 **Plugins and Tools:**
 - Utilized phpMyAdmin for managing MySQL databases, making it easy to handle database schemas, run queries, and perform backups.
-- Integrated FontAwesome for icons and visual elements, enhancing the mystical theme of the platform.
+- Integrated Google Materials and google fonts for icons and visual elements, enhancing the mystical theme of the platform.
 - Used jQuery for simplified DOM manipulation and event handling to improve user interactions.
 
 **Frontend Functionalities:**
@@ -218,11 +226,9 @@ The development process for FairyHaven Homes involves several stages to bring th
 - Created dynamic property listings that display detailed information, images, and amenities for each property.
 - Built a user profile page where users can edit their information and view their wishlist.
 - Implemented a filtering system that allows users to search for properties based on type, location, and features.
-- Designed interactive modals for property inquiries, adding properties to the wishlist, and managing user accounts.
 
 
 **Backend Functionalities:**
-- Set up RESTful API endpoints using PHP for managing users, properties, and comments.
 - Implemented server-side validation and error handling to ensure a robust and secure backend.
 - Used environment variables for configuration settings and to manage sensitive data securely.
 - Implemented admin functionalities for approving or declining new property listings and managing flagged comments.
@@ -264,7 +270,11 @@ The development process for FairyHaven Homes involves several stages to bring th
 
 ![filtering_mockup](assets/readme/filtering_mockup.png)
 
+![ExhibitoLogo](assets/readme/adminProfila_mockup.png)
+
 ![admin_mockup](assets/readme/AdminDash_mockup.png)
+
+![ExhibitoLogo](assets/readme/adminAgents_mockup.png)
 
 <!-- VIDEO DEMONSTRATION -->
 
@@ -272,7 +282,7 @@ The development process for FairyHaven Homes involves several stages to bring th
 
 To see a run through of the application, click below:
 
-[View Demonstration](path/to/video/demonstration)
+[View Demonstration](https://drive.google.com/drive/folders/1TxLFU3KXftEPpR6ERqmHDyRT-OBMS8L3?usp=sharing)
 
 <!-- ROADMAP -->
 

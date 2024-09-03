@@ -30,8 +30,9 @@
   
 .homepage-img {
     width: 100%; /* Make the image responsive */
-    height: auto; /* Maintain aspect ratio */
+    height: 65vh; /* Maintain aspect ratio */
     display: block; /* Remove any inline spacing */
+    object-fit: cover;
 }
   
 .header-content h1 {
@@ -49,7 +50,7 @@
 .header-content p {
     width: 35%;
     position: absolute; /* Position the heading absolutely within the container */
-    top: 45%; /* Center vertically */
+    top: 50%; /* Center vertically */
     left: 30%; /* Center horizontally */
     transform: translate(-50%, -50%); /* Adjust the position to center */
     color: white; /* Text color */
@@ -64,7 +65,7 @@
     padding-right: 20px;
     border: 2px solid #6E8280;
     position: absolute; /* Position the heading absolutely within the container */
-    top: 52%; /* Center vertically */
+    top: 58%; /* Center vertically */
     left: 25%; /* Center horizontally */
 }
 
@@ -73,4 +74,29 @@
     padding-left: 20px;
     padding-right: 20px;
     border: 2px solid #6E8280;
+}
+
+.colour-block{
+    background-color: #6E8280;
+    height: 10vh;
+    width: 85%;
+    margin-left: -100px;
+}
+
+.header{
+    margin-top: -7vh;
+    color: white !important;
+}
+
+.about_us{
+    width: auto;
+    height: 40vh;
+    margin-top: 80px;
+}
+.colour_block2{
+    background-color: #6E8280;
+    height: 30vh;
+    width: 80%;
+    margin-left: 20%;
+    margin-top: -100px;
 }

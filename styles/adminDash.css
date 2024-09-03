@@ -169,8 +169,8 @@ label, p{
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 5px;
-    margin-top: 25px;
     width: 100%;
+    margin-top: 10px;
     transition: background-color 0.3s;
 }
 
@@ -183,7 +183,6 @@ label, p{
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 5px;
-    margin-top: 25px;
     width: 100%;
 }
 
@@ -196,9 +195,8 @@ label, p{
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 5px;
-    margin-top: 25px;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .approve-btn:hover{
@@ -210,6 +208,93 @@ label, p{
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 5px;
-    margin-top: 25px;
     width: 100%;
+}
+
+.admin-profile{
+    /* width: 60%; */
+    background-color: #A99DCF;
+    border-radius: 15px;
+    padding: 20px;
+    height: 32vh;
+    width: 38%;
+    margin-right: 20px;
+}
+
+.logOut{
+    background-color: white;
+    border-radius: 10px;
+    width: 96%;
+    border: none;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 50px;
+}
+
+.logOut:hover{
+    background-color: #2E2212;
+    color: white !important;
+}
+
+.admin-link{
+    text-decoration: none;
+    color: white;
+}
+
+
+/* Add Agent Page */
+.agents-info{
+    background-color: #E1DDEB;
+    width: 85%;
+    border-radius: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.agents-info p{
+    margin-top: -10px;
+}
+
+.addAgent_form{
+    border: 2px solid #6E8280;
+    margin-left: -130px;
+    padding: 20px;
+    border-radius: 15px;
+    height: 62vh;
+}
+
+.form-control{
+    background-color: #6E8280;
+}
+
+.addAgent_btn{
+    background-color: #2E2212;
+    color: white !important;
+    border: 2px solid #2E2212;
+}
+
+.addAgent_btn:hover{
+    background-color: transparent;
+    border: 2px solid #2E2212;
+    color:#2E2212 !important;
+}
+
+.listing-bg h3{
+    color: white !important;
+}
+
+.text{
+    color: white !important;
+}
+
+.delete-btn{
+    border: 2px solid #2E2212;
+}
+
+.delete-btn:hover{
+    border: 2px solid #2E2212;
+    background-color: #2E2212;
+    color: white;
 }
