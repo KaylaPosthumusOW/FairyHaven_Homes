@@ -23,11 +23,11 @@
       <a href="https://github.com/KaylaPosthumusOW/FairyHaven_Homes"><strong>Explore the docs »</strong></a>
    <br />
    <br />
-   <a href="path/to/demonstration/video">View Demo</a>
+   <a href="https://drive.google.com/drive/folders/1TxLFU3KXftEPpR6ERqmHDyRT-OBMS8L3?usp=sharing">View Demo</a>
     ·
     <a href="https://github.com/WolfOWI/exhibito/issues">Report Bug</a>
     ·
-    <a href="https://github.com/WolfOWI/exhibito/issues">Request Feature</a>
+    <a href="https://github.com/KaylaPosthumusOW/FairyHaven_Homes/issues">Request Feature</a>
 </p>
 <!-- TABLE OF CONTENTS -->
 ## Table of Contents
@@ -144,35 +144,35 @@ The Sign In/Login functionality enables users to authenticate themselves by prov
 
 The "View properties and adding Properties" feature is at the core of the FairyHaven Homes platform. It provides users with the ability to browse through a variety of enchanting properties available for rent or purchase and allows authorized users to add new properties to the listings. This feature is designed to deliver a magical and immersive user experience while ensuring ease of use and efficient property management.
 
-![ExhibitoLogo](assets/readme/property_mockup.png)
+![FHH_Properties](assets/readme/property_mockup.png)
 
 ### Feature 3 - Filtering Properties
 
 The "Filtering Properties" feature enhances the user experience by allowing visitors to quickly and efficiently find properties that match their preferences. This functionality is essential for providing a streamlined and tailored browsing experience, especially given the variety of unique and magical properties available on FairyHaven Homes.
 
-![ExhibitoLogo](assets/readme/filtering_mockup.png)
+![FHH_Filtering](assets/readme/filtering_mockup.png)
 
 ### Feature 4 - Profile page editing and wishlist
 
 This feature enhances the user experience by allowing users to personalize their accounts and curate a list of favorite properties. This section provides an in-depth look at the functionality available on the profile page, focusing on how users can edit their personal information. The wishlist functionality allows users to keep track of properties they are interested in, providing a convenient way to revisit potential dream homes without having to search for them again.
 
-![ExhibitoLogo](assets/readme/profile_mockup.png)
+![FHH_Profile](assets/readme/profile_mockup.png)
 
 ## Admin User
 
-![ExhibitoLogo](assets/readme/AdminProfila_mockup.png)
+![FHH_AdminProfile](assets/readme/AdminProfila_mockup.png)
 
 ### Feature 5 -Approve or Decline new properties
 
 The "Approve or Decline New Properties" feature provides admins with the ability to moderate and manage property listings submitted by users. This feature ensures that only suitable and high-quality listings appear on the FairyHaven Homes platform, maintaining the site's integrity and user experience.
 
-![ExhibitoLogo](assets/readme/AdminDash_mockup.png)
+![FHH_AdminPendingListing](assets/readme/AdminDash_mockup.png)
 
 ### Feature 6 -Add New Agents
 
 This feature allows the admin to add new agents to the real estate platform and manage which listings each agent is responsible for. It enhances the functionality of the admin dashboard by providing better organization and delegation of property listings to specific agents, making it easier to manage and monitor property listings.
 
-![ExhibitoLogo](assets/readme/adminAgents_mockup.png)
+![FHH_AdminAgents](assets/readme/adminAgents_mockup.png)
 
 <!-- CONCEPT PROCESS -->
 <!-- Briefly explain your concept ideation process -->
