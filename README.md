@@ -16,10 +16,9 @@
     <img src="assets/readme/FHH_Logo.png" alt="Logo" width="150" height="150">
   </a>
   
-  <h3 align="center">Exhibito</h3>
+  <h3 align="center">FairyHaven_Homes</h3>
 
-  <p align="center">
-     Where Art Meets Imagination<br>
+  <p align="center"><br>
       <a href="https://github.com/KaylaPosthumusOW/FairyHaven_Homes"><strong>Explore the docs »</strong></a>
    <br />
    <br />
